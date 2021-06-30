@@ -38,13 +38,9 @@ export interface PostFields_author_node {
    */
   name: string | null;
   /**
-   * First name of the user. This is equivalent to the WP_User-&gt;user_first_name property.
+   * The slug for the user. This field is equivalent to WP_User-&gt;user_nicename
    */
-  firstName: string | null;
-  /**
-   * Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property.
-   */
-  lastName: string | null;
+  slug: string | null;
   /**
    * Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.
    */
@@ -59,52 +55,44 @@ export interface PostFields_author {
   node: PostFields_author_node | null;
 }
 
-export interface PostFields_categories_edges_node {
+export interface PostFields_categories_nodes {
   __typename: "Category";
   /**
    * The human friendly name of the object.
    */
   name: string | null;
-}
-
-export interface PostFields_categories_edges {
-  __typename: "PostToCategoryConnectionEdge";
   /**
-   * The item at the end of the edge
+   * An alphanumeric identifier for the object unique to its type.
    */
-  node: PostFields_categories_edges_node | null;
+  slug: string | null;
 }
 
 export interface PostFields_categories {
   __typename: "PostToCategoryConnection";
   /**
-   * Edges for the PostToCategoryConnection connection
+   * The nodes of the connection, without the edges
    */
-  edges: (PostFields_categories_edges | null)[] | null;
+  nodes: (PostFields_categories_nodes | null)[] | null;
 }
 
-export interface PostFields_tags_edges_node {
+export interface PostFields_tags_nodes {
   __typename: "Tag";
   /**
    * The human friendly name of the object.
    */
   name: string | null;
-}
-
-export interface PostFields_tags_edges {
-  __typename: "PostToTagConnectionEdge";
   /**
-   * The item at the end of the edge
+   * An alphanumeric identifier for the object unique to its type.
    */
-  node: PostFields_tags_edges_node | null;
+  slug: string | null;
 }
 
 export interface PostFields_tags {
   __typename: "PostToTagConnection";
   /**
-   * Edges for the PostToTagConnection connection
+   * The nodes of the connection, without the edges
    */
-  edges: (PostFields_tags_edges | null)[] | null;
+  nodes: (PostFields_tags_nodes | null)[] | null;
 }
 
 export interface PostFields {

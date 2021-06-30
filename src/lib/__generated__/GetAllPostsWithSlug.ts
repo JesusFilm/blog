@@ -7,7 +7,7 @@
 // GraphQL query operation: GetAllPostsWithSlug
 // ====================================================
 
-export interface GetAllPostsWithSlug_posts_edges_node {
+export interface GetAllPostsWithSlug_posts_nodes {
   __typename: "Post";
   /**
    * The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name
@@ -17,20 +17,12 @@ export interface GetAllPostsWithSlug_posts_edges_node {
   slug: string | null;
 }
 
-export interface GetAllPostsWithSlug_posts_edges {
-  __typename: "RootQueryToPostConnectionEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: GetAllPostsWithSlug_posts_edges_node | null;
-}
-
 export interface GetAllPostsWithSlug_posts {
   __typename: "RootQueryToPostConnection";
   /**
-   * Edges for the RootQueryToPostConnection connection
+   * The nodes of the connection, without the edges
    */
-  edges: (GetAllPostsWithSlug_posts_edges | null)[] | null;
+  nodes: (GetAllPostsWithSlug_posts_nodes | null)[] | null;
 }
 
 export interface GetAllPostsWithSlug {

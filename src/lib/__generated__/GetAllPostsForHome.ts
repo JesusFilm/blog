@@ -7,7 +7,7 @@
 // GraphQL query operation: GetAllPostsForHome
 // ====================================================
 
-export interface GetAllPostsForHome_posts_edges_node_featuredImage_node {
+export interface GetAllPostsForHome_posts_nodes_featuredImage_node {
   __typename: "MediaItem";
   /**
    * Url of the mediaItem
@@ -15,15 +15,15 @@ export interface GetAllPostsForHome_posts_edges_node_featuredImage_node {
   sourceUrl: string | null;
 }
 
-export interface GetAllPostsForHome_posts_edges_node_featuredImage {
+export interface GetAllPostsForHome_posts_nodes_featuredImage {
   __typename: "NodeWithFeaturedImageToMediaItemConnectionEdge";
   /**
    * The nodes of the connection, without the edges
    */
-  node: GetAllPostsForHome_posts_edges_node_featuredImage_node | null;
+  node: GetAllPostsForHome_posts_nodes_featuredImage_node | null;
 }
 
-export interface GetAllPostsForHome_posts_edges_node_author_node_avatar {
+export interface GetAllPostsForHome_posts_nodes_author_node_avatar {
   __typename: "Avatar";
   /**
    * URL for the gravatar image source.
@@ -31,7 +31,7 @@ export interface GetAllPostsForHome_posts_edges_node_author_node_avatar {
   url: string | null;
 }
 
-export interface GetAllPostsForHome_posts_edges_node_author_node {
+export interface GetAllPostsForHome_posts_nodes_author_node {
   __typename: "User";
   /**
    * Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property.
@@ -48,18 +48,18 @@ export interface GetAllPostsForHome_posts_edges_node_author_node {
   /**
    * Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.
    */
-  avatar: GetAllPostsForHome_posts_edges_node_author_node_avatar | null;
+  avatar: GetAllPostsForHome_posts_nodes_author_node_avatar | null;
 }
 
-export interface GetAllPostsForHome_posts_edges_node_author {
+export interface GetAllPostsForHome_posts_nodes_author {
   __typename: "NodeWithAuthorToUserConnectionEdge";
   /**
    * The nodes of the connection, without the edges
    */
-  node: GetAllPostsForHome_posts_edges_node_author_node | null;
+  node: GetAllPostsForHome_posts_nodes_author_node | null;
 }
 
-export interface GetAllPostsForHome_posts_edges_node {
+export interface GetAllPostsForHome_posts_nodes {
   __typename: "Post";
   /**
    * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
@@ -82,27 +82,19 @@ export interface GetAllPostsForHome_posts_edges_node {
   /**
    * Connection between the NodeWithFeaturedImage type and the MediaItem type
    */
-  featuredImage: GetAllPostsForHome_posts_edges_node_featuredImage | null;
+  featuredImage: GetAllPostsForHome_posts_nodes_featuredImage | null;
   /**
    * Connection between the NodeWithAuthor type and the User type
    */
-  author: GetAllPostsForHome_posts_edges_node_author | null;
-}
-
-export interface GetAllPostsForHome_posts_edges {
-  __typename: "RootQueryToPostConnectionEdge";
-  /**
-   * The item at the end of the edge
-   */
-  node: GetAllPostsForHome_posts_edges_node | null;
+  author: GetAllPostsForHome_posts_nodes_author | null;
 }
 
 export interface GetAllPostsForHome_posts {
   __typename: "RootQueryToPostConnection";
   /**
-   * Edges for the RootQueryToPostConnection connection
+   * The nodes of the connection, without the edges
    */
-  edges: (GetAllPostsForHome_posts_edges | null)[] | null;
+  nodes: (GetAllPostsForHome_posts_nodes | null)[] | null;
 }
 
 export interface GetAllPostsForHome {

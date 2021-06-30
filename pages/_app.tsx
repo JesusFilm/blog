@@ -1,7 +1,7 @@
 import { JesusFilmThemeProvider } from "@jesus-film/ark.providers.jesus-film-theme-provider";
 import { I18nProvider } from "@jesus-film/ark.providers.i18n-provider";
-import { Navigation } from "@jesus-film/ark.elements.navigation";
-import { Footer } from "@jesus-film/ark.elements.footer";
+import { Navigation } from "@jesus-film/ark.elements.core";
+import { Footer } from "@jesus-film/ark.elements.core";
 import { CssBaseline } from "@material-ui/core";
 import { useEffect } from "react";
 

@@ -6,8 +6,8 @@ import { GetPreviewPost } from "./__generated__/GetPreviewPost";
 
 const client = new GraphQLClient(process.env.WORDPRESS_API_URL, {
   headers: {
-    authorization: process.env.WORDPRESS_AUTH_REFRESH_TOKEN
-      ? `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`
+    authorization: process.env.WORDPRESS_BASE64_ENCODED_CREDENTIALS
+      ? `Basic ${process.env.WORDPRESS_BASE64_ENCODED_CREDENTIALS}`
       : undefined,
   },
 });
@@ -33,10 +33,8 @@ export async function getPreviewPost(id, idType = "DATABASE_ID") {
 const GET_ALL_POSTS_WITH_SLUG = gql`
   query GetAllPostsWithSlug {
     posts(first: 10000) {
-      edges {
-        node {
-          slug
-        }
+      nodes {
+        slug
       }
     }
   }
@@ -52,25 +50,23 @@ export async function getAllPostsWithSlug() {
 const GET_ALL_POSTS_FOR_HOME = gql`
   query GetAllPostsForHome {
     posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
-      edges {
-        node {
-          title
-          excerpt
-          slug
-          date
-          featuredImage {
-            node {
-              sourceUrl
-            }
+      nodes {
+        title
+        excerpt(format: RAW)
+        slug
+        date
+        featuredImage {
+          node {
+            sourceUrl
           }
-          author {
-            node {
-              name
-              firstName
-              lastName
-              avatar {
-                url
-              }
+        }
+        author {
+          node {
+            name
+            firstName
+            lastName
+            avatar {
+              url
             }
           }
         }
@@ -88,19 +84,20 @@ export async function getAllPostsForHome(preview) {
     }
   );
 
-  return data?.posts;
+  return data;
 }
 
 const GET_POST_AND_MORE_POSTS = gql`
   fragment AuthorFields on User {
     name
+    slug
     avatar {
       url
     }
   }
   fragment PostFields on Post {
     title
-    excerpt
+    excerpt(format: RAW)
     slug
     date
     featuredImage {
@@ -114,17 +111,15 @@ const GET_POST_AND_MORE_POSTS = gql`
       }
     }
     categories {
-      edges {
-        node {
-          name
-        }
+      nodes {
+        name
+        slug
       }
     }
     tags {
-      edges {
-        node {
-          name
-        }
+      nodes {
+        name
+        slug
       }
     }
   }
@@ -136,25 +131,21 @@ const GET_POST_AND_MORE_POSTS = gql`
         first: 1
         where: { orderby: { field: MODIFIED, order: DESC } }
       ) {
-        edges {
-          node {
-            title
-            excerpt
-            content
-            author {
-              node {
-                ...AuthorFields
-              }
+        nodes {
+          title
+          excerpt(format: RAW)
+          content
+          author {
+            node {
+              ...AuthorFields
             }
           }
         }
       }
     }
     posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
-      edges {
-        node {
-          ...PostFields
-        }
+      nodes {
+        ...PostFields
       }
     }
   }
@@ -181,16 +172,16 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
   if (isDraft) data.post.slug = postPreview.id;
   // Apply a revision (changes in a published post)
   if (isRevision && data.post.revisions) {
-    const revision = data.post.revisions.edges[0]?.node;
+    const revision = data.post.revisions.nodes[0];
 
     if (revision) Object.assign(data.post, revision);
     delete data.post.revisions;
   }
 
   // Filter out the main post
-  data.posts.edges = data.posts.edges.filter(({ node }) => node.slug !== slug);
+  data.posts.nodes = data.posts.nodes.filter((node) => node.slug !== slug);
   // If there are still 3 posts, remove the last one
-  if (data.posts.edges.length > 2) data.posts.edges.pop();
+  if (data.posts.nodes.length > 2) data.posts.nodes.pop();
 
   return data;
 }

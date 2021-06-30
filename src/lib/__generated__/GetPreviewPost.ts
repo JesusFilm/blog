@@ -12,7 +12,7 @@ import { PostIdType } from "./../../../__generated__/globalTypes";
 export interface GetPreviewPost_post {
   __typename: "Post";
   /**
-   * The ID of the node in the database.
+   * The unique resource identifier path
    */
   databaseId: number;
   /**

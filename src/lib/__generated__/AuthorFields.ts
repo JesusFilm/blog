@@ -22,13 +22,9 @@ export interface AuthorFields {
    */
   name: string | null;
   /**
-   * First name of the user. This is equivalent to the WP_User-&gt;user_first_name property.
+   * The slug for the user. This field is equivalent to WP_User-&gt;user_nicename
    */
-  firstName: string | null;
-  /**
-   * Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property.
-   */
-  lastName: string | null;
+  slug: string | null;
   /**
    * Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.
    */

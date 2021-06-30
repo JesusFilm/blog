@@ -14,8 +14,9 @@ import {
   GetPostAndMorePosts_post,
   GetPostAndMorePosts_posts,
 } from "../../src/lib/__generated__/GetPostAndMorePosts";
+import Link from "next/link";
 // import PostTitle from "../../components/post-title";
-// import Head from "next/head";
+import Head from "next/head";
 // import { CMS_NAME } from "../../lib/constants";
 // import Tags from "../../components/tags";
 
@@ -27,7 +28,7 @@ type PostPageProps = {
 
 export default function PostPage({ post, posts, preview }: PostPageProps) {
   const router = useRouter();
-  const morePosts = posts?.edges;
+  const morePosts = posts?.nodes;
 
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
@@ -35,13 +36,44 @@ export default function PostPage({ post, posts, preview }: PostPageProps) {
 
   return (
     <>
-      <Container>
-        {router.isFallback ? (
-          <>Loading…</>
-        ) : (
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-        )}
-      </Container>
+      {router.isFallback ? (
+        <>Loading…</>
+      ) : (
+        <>
+          <Head>
+            <title>{post.title} | Jesus Film Blog</title>
+            <meta
+              property="og:image"
+              content={post.featuredImage?.node?.sourceUrl}
+            />
+          </Head>
+
+          {/* <PostHeader
+            title={post.title}
+            excerpt={post.excerpt}
+            date={post.date}
+            src={post.featuredImage.node.sourceUrl}
+            author={post.author.node.name}
+            category={post.categories.nodes[0].name}
+            CategoryLink={(props) => (
+              <Link
+                href={`/categories/${post.categories.nodes[0].slug}`}
+                passHref
+              >
+                <a {...props} />
+              </Link>
+            )}
+            AuthorLink={(props) => (
+              <Link href={`/authors/${post.author.node.slug}`} passHref>
+                <a {...props} />
+              </Link>
+            )}
+          /> */}
+          <Container>
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          </Container>
+        </>
+      )}
     </>
     // <Layout preview={preview}>
     //   <Container>
@@ -102,7 +134,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const allPosts = await getAllPostsWithSlug();
 
   return {
-    paths: allPosts.edges.map(({ node }) => `/posts/${node.slug}`) || [],
+    paths: allPosts.nodes.map(({ slug }) => `/posts/${slug}`) || [],
     fallback: true,
   };
 };
