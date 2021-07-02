@@ -3,9 +3,20 @@ import { I18nProvider } from "@jesus-film/ark.providers.i18n-provider";
 import { Navigation } from "@jesus-film/ark.elements.core";
 import { Footer } from "@jesus-film/ark.elements.core";
 import { CssBaseline } from "@material-ui/core";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
+import { AppProps as NextAppProps } from "next/app";
+import { GetMenus } from "../src/lib/__generated__/GetMenus";
+import { MenuLocationEnum } from "../__generated__/globalTypes";
 
-function MyApp({ Component, pageProps }) {
+export interface AppProps {
+  menus: GetMenus;
+}
+
+interface MyAppProps extends NextAppProps {
+  pageProps: AppProps & { children: ReactNode };
+}
+
+function MyApp({ Component, pageProps }: MyAppProps) {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -14,13 +25,23 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
+  const menus = pageProps.menus.menus.nodes.filter(({ locations }) =>
+    locations.filter((location) =>
+      [
+        MenuLocationEnum.MAIN_MENU_1,
+        MenuLocationEnum.MAIN_MENU_2,
+        MenuLocationEnum.MAIN_MENU_3,
+      ].includes(location)
+    )
+  );
+
   return (
     <I18nProvider>
       <JesusFilmThemeProvider>
         <CssBaseline />
-        <Navigation />
+        <Navigation menus={menus} />
         <Component {...pageProps} />
-        <Footer />
+        <Footer menus={menus} />
       </JesusFilmThemeProvider>
     </I18nProvider>
   );

@@ -1,30 +1,24 @@
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
-// import Container from "../../components/container";
-// import PostBody from "../../components/post-body";
-// import MoreStories from "../../components/more-stories";
-// import Header from "../../components/header";
-// import PostHeader from "../../components/post-header";
-// import SectionSeparator from "../../components/section-separator";
-// import Layout from "../../components/layout";
-import { getAllPostsWithSlug, getPostAndMorePosts } from "../../src/lib/api";
+import {
+  getAllPostsWithSlug,
+  getMenus,
+  getPostAndMorePosts,
+} from "../../src/lib/api";
 import { Container } from "@material-ui/core";
 import { GetStaticPaths, GetStaticProps } from "next";
 import {
   GetPostAndMorePosts_post,
   GetPostAndMorePosts_posts,
 } from "../../src/lib/__generated__/GetPostAndMorePosts";
-import Link from "next/link";
-// import PostTitle from "../../components/post-title";
-import Head from "next/head";
-// import { CMS_NAME } from "../../lib/constants";
-// import Tags from "../../components/tags";
+import { Helmet } from "react-helmet";
+import { AppProps } from "../_app";
 
-type PostPageProps = {
+interface PostPageProps extends AppProps {
   preview: boolean;
   post: GetPostAndMorePosts_post;
   posts: GetPostAndMorePosts_posts;
-};
+}
 
 export default function PostPage({ post, posts, preview }: PostPageProps) {
   const router = useRouter();
@@ -40,13 +34,13 @@ export default function PostPage({ post, posts, preview }: PostPageProps) {
         <>Loading…</>
       ) : (
         <>
-          <Head>
+          <Helmet>
             <title>{post.title} | Jesus Film Blog</title>
             <meta
               property="og:image"
               content={post.featuredImage?.node?.sourceUrl}
             />
-          </Head>
+          </Helmet>
 
           {/* <PostHeader
             title={post.title}
@@ -120,12 +114,14 @@ export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   previewData,
 }) => {
   const data = await getPostAndMorePosts(params.slug, preview, previewData);
+  const menus = await getMenus();
 
   return {
     props: {
       preview,
       post: data.post,
       posts: data.posts,
+      menus,
     },
   };
 };

@@ -1,6 +1,7 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { GetAllPostsForHome } from "./__generated__/GetAllPostsForHome";
 import { GetAllPostsWithSlug } from "./__generated__/GetAllPostsWithSlug";
+import { GetMenus } from "./__generated__/GetMenus";
 import { GetPostAndMorePosts } from "./__generated__/GetPostAndMorePosts";
 import { GetPreviewPost } from "./__generated__/GetPreviewPost";
 
@@ -184,4 +185,30 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
   if (data.posts.nodes.length > 2) data.posts.nodes.pop();
 
   return data;
+}
+
+const GET_MENUS = gql`
+  query GetMenus {
+    menus {
+      nodes {
+        id
+        name
+        locations
+        menuItems {
+          nodes {
+            id
+            parentId
+            label
+            target
+            title
+            url
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getMenus() {
+  return await client.request<GetMenus>(GET_MENUS);
 }
