@@ -5,7 +5,6 @@ import {
   getMenus,
   getPostAndMorePosts,
 } from "../../src/lib/api";
-import { Container } from "@material-ui/core";
 import { GetStaticPaths, GetStaticProps } from "next";
 import {
   GetPostAndMorePosts_post,
@@ -13,6 +12,8 @@ import {
 } from "../../src/lib/__generated__/GetPostAndMorePosts";
 import { Helmet } from "react-helmet";
 import { AppProps } from "../_app";
+import { Post } from "@jesus-film/ark.elements.core";
+import Link from "next/link";
 
 interface PostPageProps extends AppProps {
   preview: boolean;
@@ -41,14 +42,8 @@ export default function PostPage({ post, posts, preview }: PostPageProps) {
               content={post.featuredImage?.node?.sourceUrl}
             />
           </Helmet>
-
-          {/* <PostHeader
-            title={post.title}
-            excerpt={post.excerpt}
-            date={post.date}
-            src={post.featuredImage.node.sourceUrl}
-            author={post.author.node.name}
-            category={post.categories.nodes[0].name}
+          <Post
+            {...post}
             CategoryLink={(props) => (
               <Link
                 href={`/categories/${post.categories.nodes[0].slug}`}
@@ -62,49 +57,10 @@ export default function PostPage({ post, posts, preview }: PostPageProps) {
                 <a {...props} />
               </Link>
             )}
-          /> */}
-          <Container>
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
-          </Container>
+          />
         </>
       )}
     </>
-    // <Layout preview={preview}>
-    //   <Container>
-    //     <Header />
-    //     {router.isFallback ? (
-    //       <PostTitle>Loading…</PostTitle>
-    //     ) : (
-    //       <>
-    //         <article>
-    //           <Head>
-    //             <title>
-    //               {post.title} | Next.js Blog Example with {CMS_NAME}
-    //             </title>
-    //             <meta
-    //               property="og:image"
-    //               content={post.featuredImage?.node?.sourceUrl}
-    //             />
-    //           </Head>
-    //           <PostHeader
-    //             title={post.title}
-    //             coverImage={post.featuredImage?.node}
-    //             date={post.date}
-    //             author={post.author?.node}
-    //             categories={post.categories}
-    //           />
-    //           <PostBody content={post.content} />
-    //           <footer>
-    //             {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
-    //           </footer>
-    //         </article>
-
-    //         <SectionSeparator />
-    //         {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-    //       </>
-    //     )}
-    //   </Container>
-    // </Layout>
   );
 }
 

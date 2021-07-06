@@ -127,18 +127,64 @@ const GET_POST_AND_MORE_POSTS = gql`
   query GetPostAndMorePosts($id: ID!, $idType: PostIdType!) {
     post(id: $id, idType: $idType) {
       ...PostFields
-      content
-      revisions(
-        first: 1
-        where: { orderby: { field: MODIFIED, order: DESC } }
-      ) {
-        nodes {
-          title
-          excerpt(format: RAW)
-          content
-          author {
-            node {
-              ...AuthorFields
+      blocks {
+        __typename
+        ... on CoreParagraphBlock {
+          attributes {
+            ... on CoreParagraphBlockAttributes {
+              content
+            }
+          }
+        }
+        ... on CoreImageBlock {
+          attributes {
+            ... on CoreImageBlockAttributes {
+              id
+              href
+              title
+              url
+              alt
+              anchor
+              align
+            }
+          }
+        }
+        ... on CoreListBlock {
+          attributes {
+            ordered
+            values
+          }
+        }
+        ... on CoreHeadingBlock {
+          attributes {
+            ... on CoreHeadingBlockAttributes {
+              align
+              textAlign
+              content
+              fontSize
+              level
+            }
+          }
+        }
+        ... on CoreGalleryBlock {
+          attributes {
+            ... on CoreGalleryBlockAttributes {
+              align
+              images {
+                fullUrl
+                link
+                alt
+              }
+              imageCrop
+              columns
+            }
+          }
+        }
+        ... on CoreQuoteBlock {
+          attributes {
+            ... on CoreQuoteBlockAttributes {
+              value
+              citation
             }
           }
         }
@@ -160,7 +206,6 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
     ? Number(slug) === postPreview.id
     : slug === postPreview.slug;
   const isDraft = isSamePost && postPreview?.status === "draft";
-  const isRevision = isSamePost && postPreview?.status === "publish";
   const data = await client.request<GetPostAndMorePosts>(
     GET_POST_AND_MORE_POSTS,
     {
@@ -171,13 +216,6 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
 
   // Draft posts may not have an slug
   if (isDraft) data.post.slug = postPreview.id;
-  // Apply a revision (changes in a published post)
-  if (isRevision && data.post.revisions) {
-    const revision = data.post.revisions.nodes[0];
-
-    if (revision) Object.assign(data.post, revision);
-    delete data.post.revisions;
-  }
 
   // Filter out the main post
   data.posts.nodes = data.posts.nodes.filter((node) => node.slug !== slug);
