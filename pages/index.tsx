@@ -1,30 +1,52 @@
 import { getAllPostsForHome, getMenus } from "../src/lib/api";
-import { Container } from "@material-ui/core";
+import { Box, Container, Grid } from "@material-ui/core";
+import { PostList } from "@jesus-film/ark.compounds.core";
+import { PostCard } from "@jesus-film/ark.elements.core";
 import { GetStaticProps } from "next";
-import { GetAllPostsForHome_posts } from "../src/lib/__generated__/GetAllPostsForHome";
-import Link from "next/link";
+import { GetAllPostsForHome } from "../src/lib/__generated__/GetAllPostsForHome";
+import NextLink from "next/link";
 import { AppProps } from "./_app";
 
-interface HomePageProps extends AppProps {
-  preview: boolean;
-  posts: GetAllPostsForHome_posts;
-}
+type HomePageProps = AppProps &
+  GetAllPostsForHome & {
+    preview: boolean;
+  };
 
-export default function PostPage({ posts }: HomePageProps) {
+export default function PostPage({
+  premierePosts,
+  quotePosts,
+  defaultPosts,
+}: HomePageProps) {
   return (
-    <>
-      <Container>
-        {posts.nodes.map((node) => (
-          <Link href={`posts/${node.slug}`} key={node.slug}>
-            <div>
-              {node.title}
-              <div dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-              <img src={node.featuredImage.node.sourceUrl} width={100} />
-            </div>
-          </Link>
-        ))}
-      </Container>
-    </>
+    <Container>
+      <Box my={5}>
+        <Grid container spacing={5}>
+          <Grid item xs={12}>
+            <PostList
+              posts={premierePosts}
+              variant="premiere"
+              PostLink={(props) => (
+                <NextLink {...props} href={`/posts/${props.href}`} passHref />
+              )}
+            />
+          </Grid>
+          {quotePosts?.nodes?.[0] && (
+            <Grid item xs={12}>
+              <PostCard
+                variant="quote"
+                {...quotePosts.nodes[0]}
+                PostLink={(props) => (
+                  <NextLink {...props} href={`/posts/${props.href}`} passHref />
+                )}
+              />
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <PostList posts={defaultPosts} variant="default" />
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
   );
 }
 
@@ -36,8 +58,8 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async ({
 
   return {
     props: {
+      ...data,
       preview,
-      posts: data.posts,
       menus,
     },
   };

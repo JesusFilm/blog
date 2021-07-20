@@ -18,7 +18,7 @@ export interface PostFields_featuredImage_node {
 export interface PostFields_featuredImage {
   __typename: "NodeWithFeaturedImageToMediaItemConnectionEdge";
   /**
-   * The nodes of the connection, without the edges
+   * The node of the connection, without the edges
    */
   node: PostFields_featuredImage_node | null;
 }
@@ -50,7 +50,7 @@ export interface PostFields_author_node {
 export interface PostFields_author {
   __typename: "NodeWithAuthorToUserConnectionEdge";
   /**
-   * The nodes of the connection, without the edges
+   * The node of the connection, without the edges
    */
   node: PostFields_author_node | null;
 }

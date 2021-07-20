@@ -20,7 +20,7 @@ export interface GetPostAndMorePosts_post_featuredImage_node {
 export interface GetPostAndMorePosts_post_featuredImage {
   __typename: "NodeWithFeaturedImageToMediaItemConnectionEdge";
   /**
-   * The nodes of the connection, without the edges
+   * The node of the connection, without the edges
    */
   node: GetPostAndMorePosts_post_featuredImage_node | null;
 }
@@ -52,7 +52,7 @@ export interface GetPostAndMorePosts_post_author_node {
 export interface GetPostAndMorePosts_post_author {
   __typename: "NodeWithAuthorToUserConnectionEdge";
   /**
-   * The nodes of the connection, without the edges
+   * The node of the connection, without the edges
    */
   node: GetPostAndMorePosts_post_author_node | null;
 }
@@ -97,8 +97,8 @@ export interface GetPostAndMorePosts_post_tags {
   nodes: (GetPostAndMorePosts_post_tags_nodes | null)[] | null;
 }
 
-export interface GetPostAndMorePosts_post_blocks_CoreShortcodeBlock {
-  __typename: "CoreShortcodeBlock" | "CoreArchivesBlock" | "CoreAudioBlock" | "CoreButtonBlock" | "CoreButtonsBlock" | "CoreCalendarBlock" | "CoreCategoriesBlock" | "CoreCodeBlock" | "CoreColumnsBlock" | "CoreColumnBlock" | "CoreCoverBlock" | "CoreEmbedBlock" | "CoreFileBlock" | "CoreGroupBlock" | "CoreFreeformBlock" | "CoreHtmlBlock" | "CoreMediaTextBlock" | "CoreLatestCommentsBlock" | "CoreLatestPostsBlock" | "CoreMissingBlock" | "CoreMoreBlock" | "CoreNextpageBlock" | "CorePreformattedBlock" | "CorePullquoteBlock" | "CoreRssBlock" | "CoreSearchBlock" | "CoreSeparatorBlock" | "CoreBlock" | "CoreSocialLinksBlock" | "CoreSocialLinkBlock" | "CoreSpacerBlock" | "CoreSubheadBlock" | "CoreTableBlock" | "CoreTagCloudBlock" | "CoreTextColumnsBlock" | "CoreVerseBlock" | "CoreVideoBlock";
+export interface GetPostAndMorePosts_post_blocks_LazyblockCoreFreeBlock {
+  __typename: "LazyblockCoreFreeBlock" | "LazyblockArclightBlock" | "CoreShortcodeBlock" | "CoreArchivesBlock" | "CoreAudioBlock" | "CoreButtonBlock" | "CoreButtonsBlock" | "CoreCalendarBlock" | "CoreCategoriesBlock" | "CoreCodeBlock" | "CoreColumnsBlock" | "CoreColumnBlock" | "CoreCoverBlock" | "CoreEmbedBlock" | "CoreFileBlock" | "CoreGroupBlock" | "CoreFreeformBlock" | "CoreHtmlBlock" | "CoreMediaTextBlock" | "CoreLatestCommentsBlock" | "CoreLatestPostsBlock" | "CoreMissingBlock" | "CoreMoreBlock" | "CoreNextpageBlock" | "CorePreformattedBlock" | "CorePullquoteBlock" | "CoreRssBlock" | "CoreSearchBlock" | "CoreSeparatorBlock" | "CoreBlock" | "CoreSocialLinksBlock" | "CoreSocialLinkBlock" | "CoreSpacerBlock" | "CoreSubheadBlock" | "CoreTableBlock" | "CoreTagCloudBlock" | "CoreTextColumnsBlock" | "CoreVerseBlock" | "CoreVideoBlock";
 }
 
 export interface GetPostAndMorePosts_post_blocks_CoreParagraphBlock_attributes_CoreParagraphBlockDeprecatedV1Attributes {
@@ -213,7 +213,7 @@ export interface GetPostAndMorePosts_post_blocks_CoreQuoteBlock {
   attributes: GetPostAndMorePosts_post_blocks_CoreQuoteBlock_attributes | null;
 }
 
-export type GetPostAndMorePosts_post_blocks = GetPostAndMorePosts_post_blocks_CoreShortcodeBlock | GetPostAndMorePosts_post_blocks_CoreParagraphBlock | GetPostAndMorePosts_post_blocks_CoreImageBlock | GetPostAndMorePosts_post_blocks_CoreListBlock | GetPostAndMorePosts_post_blocks_CoreHeadingBlock | GetPostAndMorePosts_post_blocks_CoreGalleryBlock | GetPostAndMorePosts_post_blocks_CoreQuoteBlock;
+export type GetPostAndMorePosts_post_blocks = GetPostAndMorePosts_post_blocks_LazyblockCoreFreeBlock | GetPostAndMorePosts_post_blocks_CoreParagraphBlock | GetPostAndMorePosts_post_blocks_CoreImageBlock | GetPostAndMorePosts_post_blocks_CoreListBlock | GetPostAndMorePosts_post_blocks_CoreHeadingBlock | GetPostAndMorePosts_post_blocks_CoreGalleryBlock | GetPostAndMorePosts_post_blocks_CoreQuoteBlock;
 
 export interface GetPostAndMorePosts_post {
   __typename: "Post";
@@ -268,7 +268,7 @@ export interface GetPostAndMorePosts_posts_nodes_featuredImage_node {
 export interface GetPostAndMorePosts_posts_nodes_featuredImage {
   __typename: "NodeWithFeaturedImageToMediaItemConnectionEdge";
   /**
-   * The nodes of the connection, without the edges
+   * The node of the connection, without the edges
    */
   node: GetPostAndMorePosts_posts_nodes_featuredImage_node | null;
 }
@@ -300,7 +300,7 @@ export interface GetPostAndMorePosts_posts_nodes_author_node {
 export interface GetPostAndMorePosts_posts_nodes_author {
   __typename: "NodeWithAuthorToUserConnectionEdge";
   /**
-   * The nodes of the connection, without the edges
+   * The node of the connection, without the edges
    */
   node: GetPostAndMorePosts_posts_nodes_author_node | null;
 }

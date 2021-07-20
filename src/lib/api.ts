@@ -50,26 +50,54 @@ export async function getAllPostsWithSlug() {
 
 const GET_ALL_POSTS_FOR_HOME = gql`
   query GetAllPostsForHome {
-    posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
+    premierePosts: posts(
+      first: 3
+      where: { orderby: { field: DATE, order: DESC } }
+    ) {
       nodes {
         title
-        excerpt(format: RAW)
         slug
-        date
+        excerpt
         featuredImage {
           node {
             sourceUrl
           }
         }
-        author {
-          node {
+      }
+    }
+    defaultPosts: posts(
+      first: 6
+      where: { orderby: { field: DATE, order: DESC } }
+    ) {
+      nodes {
+        title
+        slug
+        excerpt
+        categories {
+          nodes {
             name
-            firstName
-            lastName
-            avatar {
-              url
-            }
+            slug
           }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+        date
+      }
+    }
+    quotePosts: posts(
+      first: 1
+      where: { tag: "quote", orderby: { field: DATE, order: ASC } }
+    ) {
+      nodes {
+        id
+        date
+        title
+        slug
+        customPostFields {
+          quote
         }
       }
     }
