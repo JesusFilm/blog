@@ -11,10 +11,11 @@
  * Registered menu locations
  */
 export enum MenuLocationEnum {
-  FOOTER = "FOOTER",
   HCMS_MENU_FOOTER = "HCMS_MENU_FOOTER",
   HCMS_MENU_HEADER = "HCMS_MENU_HEADER",
-  PRIMARY = "PRIMARY",
+  MAIN_MENU_1 = "MAIN_MENU_1",
+  MAIN_MENU_2 = "MAIN_MENU_2",
+  MAIN_MENU_3 = "MAIN_MENU_3",
 }
 
 /**
