@@ -1,32 +1,28 @@
-import { useRouter } from "next/router";
-import ErrorPage from "next/error";
+import React from 'react'
+import { useRouter } from 'next/router'
+import ErrorPage from 'next/error'
 import {
   getAllPostsWithSlug,
   getMenus,
-  getPostAndMorePosts,
-} from "../../src/lib/api";
-import { GetStaticPaths, GetStaticProps } from "next";
-import {
-  GetPostAndMorePosts_post,
-  GetPostAndMorePosts_posts,
-} from "../../src/lib/__generated__/GetPostAndMorePosts";
-import { Helmet } from "react-helmet";
-import { AppProps } from "../_app";
-import { Post } from "@jesus-film/ark.elements.core";
-import Link from "next/link";
+  getPostAndMorePosts
+} from '../../src/lib/api'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetPostAndMorePosts } from '../../src/lib/__generated__/GetPostAndMorePosts'
+import { Helmet } from 'react-helmet'
+import { AppProps } from '../_app'
+import { Post } from '@jesus-film/ark.elements.core'
+import Link from 'next/link'
 
-interface PostPageProps extends AppProps {
-  preview: boolean;
-  post: GetPostAndMorePosts_post;
-  posts: GetPostAndMorePosts_posts;
-}
+type PostPageProps = AppProps &
+  GetPostAndMorePosts & {
+    preview: boolean
+  }
 
-export default function PostPage({ post, posts, preview }: PostPageProps) {
-  const router = useRouter();
-  const morePosts = posts?.nodes;
+export default function PostPage({ post }: PostPageProps) {
+  const router = useRouter()
 
   if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />;
+    return <ErrorPage statusCode={404} />
   }
 
   return (
@@ -47,8 +43,7 @@ export default function PostPage({ post, posts, preview }: PostPageProps) {
             CategoryLink={(props) => (
               <Link
                 href={`/categories/${post.categories.nodes[0].slug}`}
-                passHref
-              >
+                passHref>
                 <a {...props} />
               </Link>
             )}
@@ -61,32 +56,31 @@ export default function PostPage({ post, posts, preview }: PostPageProps) {
         </>
       )}
     </>
-  );
+  )
 }
 
 export const getStaticProps: GetStaticProps<PostPageProps> = async ({
   params,
   preview = false,
-  previewData,
+  previewData
 }) => {
-  const data = await getPostAndMorePosts(params.slug, preview, previewData);
-  const menus = await getMenus();
+  const data = await getPostAndMorePosts(params.slug, preview, previewData)
+  const menus = await getMenus()
 
   return {
     props: {
+      ...data,
       preview,
-      post: data.post,
-      posts: data.posts,
-      menus,
-    },
-  };
-};
+      menus
+    }
+  }
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allPosts = await getAllPostsWithSlug();
+  const allPosts = await getAllPostsWithSlug()
 
   return {
     paths: allPosts.nodes.map(({ slug }) => `/posts/${slug}`) || [],
-    fallback: true,
-  };
-};
+    fallback: true
+  }
+}

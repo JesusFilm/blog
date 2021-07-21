@@ -1,21 +1,22 @@
-import { getAllPostsForHome, getMenus } from "../src/lib/api";
-import { Box, Container, Grid } from "@material-ui/core";
-import { PostList } from "@jesus-film/ark.compounds.core";
-import { PostCard } from "@jesus-film/ark.elements.core";
-import { GetStaticProps } from "next";
-import { GetAllPostsForHome } from "../src/lib/__generated__/GetAllPostsForHome";
-import NextLink from "next/link";
-import { AppProps } from "./_app";
+import React from 'react'
+import { getAllPostsForHome, getMenus } from '../src/lib/api'
+import { Box, Container, Grid } from '@material-ui/core'
+import { PostList } from '@jesus-film/ark.compounds.core'
+import { PostCard } from '@jesus-film/ark.elements.core'
+import { GetStaticProps } from 'next'
+import { GetAllPostsForHome } from '../src/lib/__generated__/GetAllPostsForHome'
+import NextLink from 'next/link'
+import { AppProps } from './_app'
 
 type HomePageProps = AppProps &
   GetAllPostsForHome & {
-    preview: boolean;
-  };
+    preview: boolean
+  }
 
 export default function PostPage({
   premierePosts,
   quotePosts,
-  defaultPosts,
+  defaultPosts
 }: HomePageProps) {
   return (
     <Container>
@@ -47,20 +48,20 @@ export default function PostPage({
         </Grid>
       </Box>
     </Container>
-  );
+  )
 }
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async ({
-  preview = false,
+  preview = false
 }) => {
-  const data = await getAllPostsForHome(preview);
-  const menus = await getMenus();
+  const data = await getAllPostsForHome(preview)
+  const menus = await getMenus()
 
   return {
     props: {
       ...data,
       preview,
-      menus,
-    },
-  };
-};
+      menus
+    }
+  }
+}

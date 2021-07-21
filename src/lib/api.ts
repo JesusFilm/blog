@@ -1,17 +1,17 @@
-import { GraphQLClient, gql } from "graphql-request";
-import { GetAllPostsForHome } from "./__generated__/GetAllPostsForHome";
-import { GetAllPostsWithSlug } from "./__generated__/GetAllPostsWithSlug";
-import { GetMenus } from "./__generated__/GetMenus";
-import { GetPostAndMorePosts } from "./__generated__/GetPostAndMorePosts";
-import { GetPreviewPost } from "./__generated__/GetPreviewPost";
+import { GraphQLClient, gql } from 'graphql-request'
+import { GetAllPostsForHome } from './__generated__/GetAllPostsForHome'
+import { GetAllPostsWithSlug } from './__generated__/GetAllPostsWithSlug'
+import { GetMenus } from './__generated__/GetMenus'
+import { GetPostAndMorePosts } from './__generated__/GetPostAndMorePosts'
+import { GetPreviewPost } from './__generated__/GetPreviewPost'
 
 const client = new GraphQLClient(process.env.WORDPRESS_API_URL, {
   headers: {
     authorization: process.env.WORDPRESS_BASE64_ENCODED_CREDENTIALS
       ? `Basic ${process.env.WORDPRESS_BASE64_ENCODED_CREDENTIALS}`
-      : undefined,
-  },
-});
+      : undefined
+  }
+})
 
 const GET_PREVIEW_POST = gql`
   query GetPreviewPost($id: ID!, $idType: PostIdType!) {
@@ -21,14 +21,14 @@ const GET_PREVIEW_POST = gql`
       status
     }
   }
-`;
+`
 
-export async function getPreviewPost(id, idType = "DATABASE_ID") {
+export async function getPreviewPost(id, idType = 'DATABASE_ID') {
   const data = await client.request<GetPreviewPost>(GET_PREVIEW_POST, {
     id,
-    idType,
-  });
-  return data.post;
+    idType
+  })
+  return data.post
 }
 
 const GET_ALL_POSTS_WITH_SLUG = gql`
@@ -39,13 +39,13 @@ const GET_ALL_POSTS_WITH_SLUG = gql`
       }
     }
   }
-`;
+`
 
 export async function getAllPostsWithSlug() {
   const data = await client.request<GetAllPostsWithSlug>(
     GET_ALL_POSTS_WITH_SLUG
-  );
-  return data?.posts;
+  )
+  return data?.posts
 }
 
 const GET_ALL_POSTS_FOR_HOME = gql`
@@ -102,18 +102,18 @@ const GET_ALL_POSTS_FOR_HOME = gql`
       }
     }
   }
-`;
+`
 
 export async function getAllPostsForHome(preview) {
   const data = await client.request<GetAllPostsForHome>(
     GET_ALL_POSTS_FOR_HOME,
     {
       onlyEnabled: !preview,
-      preview,
+      preview
     }
-  );
+  )
 
-  return data;
+  return data
 }
 
 const GET_POST_AND_MORE_POSTS = gql`
@@ -224,33 +224,33 @@ const GET_POST_AND_MORE_POSTS = gql`
       }
     }
   }
-`;
+`
 
 export async function getPostAndMorePosts(slug, preview, previewData) {
-  const postPreview = preview && previewData?.post;
+  const postPreview = preview && previewData?.post
   // The slug may be the id of an unpublished post
-  const isId = Number.isInteger(Number(slug));
+  const isId = Number.isInteger(Number(slug))
   const isSamePost = isId
     ? Number(slug) === postPreview.id
-    : slug === postPreview.slug;
-  const isDraft = isSamePost && postPreview?.status === "draft";
+    : slug === postPreview.slug
+  const isDraft = isSamePost && postPreview?.status === 'draft'
   const data = await client.request<GetPostAndMorePosts>(
     GET_POST_AND_MORE_POSTS,
     {
       id: isDraft ? postPreview.id : slug,
-      idType: isDraft ? "DATABASE_ID" : "SLUG",
+      idType: isDraft ? 'DATABASE_ID' : 'SLUG'
     }
-  );
+  )
 
   // Draft posts may not have an slug
-  if (isDraft) data.post.slug = postPreview.id;
+  if (isDraft) data.post.slug = postPreview.id
 
   // Filter out the main post
-  data.posts.nodes = data.posts.nodes.filter((node) => node.slug !== slug);
+  data.posts.nodes = data.posts.nodes.filter((node) => node.slug !== slug)
   // If there are still 3 posts, remove the last one
-  if (data.posts.nodes.length > 2) data.posts.nodes.pop();
+  if (data.posts.nodes.length > 2) data.posts.nodes.pop()
 
-  return data;
+  return data
 }
 
 const GET_MENUS = gql`
@@ -273,8 +273,8 @@ const GET_MENUS = gql`
       }
     }
   }
-`;
+`
 
 export async function getMenus() {
-  return await client.request<GetMenus>(GET_MENUS);
+  return await client.request<GetMenus>(GET_MENUS)
 }
