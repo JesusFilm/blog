@@ -9,7 +9,7 @@ import { GetMenus } from '../src/lib/__generated__/GetMenus'
 import { MenuLocationEnum } from '../__generated__/globalTypes'
 
 export interface AppProps {
-  menus: GetMenus
+  menus?: GetMenus
 }
 
 interface MyAppProps extends NextAppProps {
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: MyAppProps) {
     }
   }, [])
 
-  const menus = pageProps.menus.menus.nodes.filter(({ locations }) =>
+  const menus = pageProps?.menus?.menus?.nodes?.filter(({ locations }) =>
     locations.filter((location) =>
       [
         MenuLocationEnum.MAIN_MENU_1,
