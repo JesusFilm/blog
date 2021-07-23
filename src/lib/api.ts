@@ -162,18 +162,48 @@ const GET_POST_AND_MORE_POSTS = gql`
             ... on CoreParagraphBlockAttributes {
               content
             }
+            ... on CoreParagraphBlockDeprecatedV1Attributes {
+              content
+            }
+            ... on CoreParagraphBlockDeprecatedV2Attributes {
+              content
+            }
+            ... on CoreParagraphBlockDeprecatedV3Attributes {
+              content
+            }
+            ... on CoreParagraphBlockDeprecatedV4Attributes {
+              content
+            }
+            ... on CoreParagraphBlockDeprecatedV5Attributes {
+              content
+            }
           }
         }
         ... on CoreImageBlock {
           attributes {
             ... on CoreImageBlockAttributes {
-              id
-              href
-              title
-              url
               alt
-              anchor
-              align
+              url
+              title
+              id
+            }
+            ... on CoreImageBlockDeprecatedV1Attributes {
+              alt
+              url
+              title
+              id
+            }
+            ... on CoreImageBlockDeprecatedV2Attributes {
+              alt
+              url
+              title
+              id
+            }
+            ... on CoreImageBlockDeprecatedV3Attributes {
+              alt
+              url
+              title
+              id
             }
           }
         }
@@ -192,19 +222,73 @@ const GET_POST_AND_MORE_POSTS = gql`
               fontSize
               level
             }
+            ... on CoreHeadingBlockDeprecatedV1Attributes {
+              align
+              textAlign
+              content
+              fontSize
+              level
+            }
+            ... on CoreHeadingBlockDeprecatedV2Attributes {
+              align
+              textAlign
+              content
+              fontSize
+              level
+            }
+            ... on CoreHeadingBlockDeprecatedV3Attributes {
+              align
+              textAlign
+              content
+              fontSize
+              level
+            }
+            ... on CoreHeadingBlockDeprecatedV4Attributes {
+              align
+              textAlign
+              content
+              fontSize
+              level
+            }
           }
         }
         ... on CoreGalleryBlock {
           attributes {
             ... on CoreGalleryBlockAttributes {
-              align
               images {
                 fullUrl
-                link
                 alt
               }
-              imageCrop
-              columns
+            }
+            ... on CoreGalleryBlockDeprecatedV1Attributes {
+              images {
+                fullUrl
+                alt
+              }
+            }
+            ... on CoreGalleryBlockDeprecatedV2Attributes {
+              images {
+                fullUrl
+                alt
+              }
+            }
+            ... on CoreGalleryBlockDeprecatedV3Attributes {
+              images {
+                fullUrl
+                alt
+              }
+            }
+            ... on CoreGalleryBlockDeprecatedV4Attributes {
+              images {
+                fullUrl
+                alt
+              }
+            }
+            ... on CoreGalleryBlockDeprecatedV5Attributes {
+              images {
+                fullUrl
+                alt
+              }
             }
           }
         }
@@ -214,11 +298,28 @@ const GET_POST_AND_MORE_POSTS = gql`
               value
               citation
             }
+            ... on CoreQuoteBlockDeprecatedV1Attributes {
+              value
+              citation
+            }
+            ... on CoreQuoteBlockDeprecatedV2Attributes {
+              value
+              citation
+            }
+            ... on CoreQuoteBlockDeprecatedV3Attributes {
+              value
+              citation
+            }
           }
         }
         ... on CoreEmbedBlock {
           attributes {
             ... on CoreEmbedBlockAttributes {
+              url
+              providerNameSlug
+              align
+            }
+            ... on CoreEmbedBlockDeprecatedV1Attributes {
               url
               providerNameSlug
               align
