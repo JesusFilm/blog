@@ -10,5 +10,8 @@ const withTM = require('next-transpile-modules')(
 module.exports = withPlugins([withImages, withTM], {
   future: {
     webpack5: false
+  },
+  eslint: {
+    ignoreDuringBuilds: true
   }
 })
