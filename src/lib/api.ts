@@ -216,6 +216,22 @@ const GET_POST_AND_MORE_POSTS = gql`
             }
           }
         }
+        ... on CoreEmbedBlock {
+          attributes {
+            ... on CoreEmbedBlockAttributes {
+              url
+              providerNameSlug
+              align
+            }
+          }
+        }
+        ... on LazyblockArclightBlock {
+          attributes {
+            ... on LazyblockArclightBlockAttributes {
+              refId
+            }
+          }
+        }
       }
     }
     posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {

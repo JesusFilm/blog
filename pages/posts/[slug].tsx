@@ -11,7 +11,7 @@ import { GetPostAndMorePosts } from '../../src/lib/__generated__/GetPostAndMoreP
 import { Helmet } from 'react-helmet'
 import { AppProps } from '../_app'
 import { Post } from '@jesus-film/ark.elements.core'
-import Link from 'next/link'
+import LocalLink from '../../src/components/LocalLink'
 
 type PostPageProps = AppProps &
   GetPostAndMorePosts & {
@@ -32,7 +32,7 @@ export default function PostPage({ post }: PostPageProps) {
       ) : (
         <>
           <Helmet>
-            <title>{post.title} | Jesus Film Blog</title>
+            <title>{post.title} | Jesus Film Project</title>
             <meta
               property="og:image"
               content={post.featuredImage?.node?.sourceUrl}
@@ -40,18 +40,8 @@ export default function PostPage({ post }: PostPageProps) {
           </Helmet>
           <Post
             {...post}
-            CategoryLink={(props) => (
-              <Link
-                href={`/categories/${post.categories.nodes[0].slug}`}
-                passHref>
-                <a {...props} />
-              </Link>
-            )}
-            AuthorLink={(props) => (
-              <Link href={`/authors/${post.author.node.slug}`} passHref>
-                <a {...props} />
-              </Link>
-            )}
+            CategoryLink={LocalLink('categories')}
+            AuthorLink={LocalLink('authors')}
           />
         </>
       )}

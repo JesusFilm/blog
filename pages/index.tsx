@@ -5,8 +5,9 @@ import { PostList } from '@jesus-film/ark.compounds.core'
 import { PostCard } from '@jesus-film/ark.elements.core'
 import { GetStaticProps } from 'next'
 import { GetAllPostsForHome } from '../src/lib/__generated__/GetAllPostsForHome'
-import NextLink from 'next/link'
 import { AppProps } from './_app'
+import { Helmet } from 'react-helmet'
+import LocalLink from '../src/components/LocalLink'
 
 type HomePageProps = AppProps &
   GetAllPostsForHome & {
@@ -19,35 +20,41 @@ export default function PostPage({
   defaultPosts
 }: HomePageProps) {
   return (
-    <Container>
-      <Box my={5}>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <PostList
-              posts={premierePosts}
-              variant="premiere"
-              PostLink={(props) => (
-                <NextLink {...props} href={`/posts/${props.href}`} passHref />
-              )}
-            />
-          </Grid>
-          {quotePosts?.nodes?.[0] && (
+    <>
+      <Helmet>
+        <title>Blog &amp; Stories | Jesus Film Project</title>
+      </Helmet>
+      <Container>
+        <Box my={5}>
+          <Grid container spacing={5}>
             <Grid item xs={12}>
-              <PostCard
-                variant="quote"
-                {...quotePosts.nodes[0]}
-                PostLink={(props) => (
-                  <NextLink {...props} href={`/posts/${props.href}`} passHref />
-                )}
+              <PostList
+                posts={premierePosts}
+                variant="premiere"
+                PostLink={LocalLink('posts')}
               />
             </Grid>
-          )}
-          <Grid item xs={12}>
-            <PostList posts={defaultPosts} variant="default" />
+            {quotePosts?.nodes?.[0] && (
+              <Grid item xs={12}>
+                <PostCard
+                  variant="quote"
+                  {...quotePosts.nodes[0]}
+                  PostLink={LocalLink('posts')}
+                />
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <PostList
+                posts={defaultPosts}
+                variant="default"
+                PostLink={LocalLink('posts')}
+                CategoryLink={LocalLink('categories')}
+              />
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </>
   )
 }
 
