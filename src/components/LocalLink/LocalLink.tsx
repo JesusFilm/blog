@@ -7,9 +7,10 @@ export default function LocalLink(prefix: string) {
     href: string
     className?: string
   }) {
+    const { href, ...other } = props
     return (
-      <NextLink {...props} href={`${prefix ? `/${prefix}` : ''}/${props.href}`}>
-        <a>{props.children}</a>
+      <NextLink href={`${prefix ? `/${prefix}` : ''}/${href}`}>
+        <a {...other} />
       </NextLink>
     )
   }
