@@ -3,20 +3,20 @@ import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 import {
   getMenus,
-  getPostsForCategory,
-  getAllPostsWithCategorySlug
+  getPostsForAuthor,
+  getAllPostsWithAuthorSlug
 } from '../../src/lib/api'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { GetPostsForCategory } from '../../src/lib/__generated__/GetPostsForCategory'
+import { GetPostsForAuthor } from '../../src/lib/__generated__/GetPostsForAuthor'
 import { Helmet } from 'react-helmet'
 import { AppProps } from '../_app'
 import LocalLink from '../../src/components/LocalLink'
 import { Box, Container, Grid } from '@material-ui/core'
 import { PostList } from '@jesus-film/ark.compounds.core'
 
-type CategoryPageProps = AppProps & GetPostsForCategory
+type AuthorPageProps = AppProps & GetPostsForAuthor
 
-export default function CategoryPage({ posts }: CategoryPageProps) {
+export default function AuthorPage({ posts }: AuthorPageProps) {
   const router = useRouter()
   if (!router.isFallback && !posts?.nodes[0]?.slug) {
     return <ErrorPage statusCode={404} />
@@ -29,7 +29,9 @@ export default function CategoryPage({ posts }: CategoryPageProps) {
       ) : (
         <>
           <Helmet>
-            <title>{posts.nodes[0].title} | Jesus Film Project</title>
+            <title>
+              {posts.nodes[0].author?.node?.name} | Jesus Film Project
+            </title>
             <meta
               property="og:image"
               content={posts.nodes[0].featuredImage?.node?.sourceUrl}
@@ -55,10 +57,10 @@ export default function CategoryPage({ posts }: CategoryPageProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps<CategoryPageProps> = async ({
+export const getStaticProps: GetStaticProps<AuthorPageProps> = async ({
   params
 }) => {
-  const data = await getPostsForCategory(params.slug)
+  const data = await getPostsForAuthor(params.slug)
   const menus = await getMenus()
 
   return {
@@ -70,10 +72,10 @@ export const getStaticProps: GetStaticProps<CategoryPageProps> = async ({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allPosts = await getAllPostsWithCategorySlug()
+  const allPosts = await getAllPostsWithAuthorSlug()
 
   return {
-    paths: allPosts.map((slug) => `/categories/${slug}`) || [],
+    paths: allPosts.map((slug) => `/authors/${slug}`) || [],
     fallback: true
   }
 }
