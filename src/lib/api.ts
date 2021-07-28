@@ -1,8 +1,10 @@
 import { GraphQLClient, gql } from 'graphql-request'
 import { GetAllPostsForHome } from './__generated__/GetAllPostsForHome'
 import { GetAllPostsWithSlug } from './__generated__/GetAllPostsWithSlug'
+import { GetAllPostsWithCategorySlug } from './__generated__/GetAllPostsWithCategorySlug'
 import { GetMenus } from './__generated__/GetMenus'
 import { GetPostAndMorePosts } from './__generated__/GetPostAndMorePosts'
+import { GetPostsForCategory } from './__generated__/GetPostsForCategory'
 import { GetPreviewPost } from './__generated__/GetPreviewPost'
 
 const client = new GraphQLClient(process.env.WORDPRESS_API_URL, {
@@ -394,4 +396,66 @@ const GET_MENUS = gql`
 
 export async function getMenus() {
   return await client.request<GetMenus>(GET_MENUS)
+}
+
+const GET_POSTS_FOR_CATEGORY = gql`
+  query GetPostsForCategory($slug: String!) {
+    posts(
+      first: 10
+      where: { categoryName: $slug, orderby: { field: DATE, order: DESC } }
+    ) {
+      nodes {
+        title
+        slug
+        excerpt
+        categories {
+          nodes {
+            name
+            slug
+          }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+        date
+      }
+    }
+  }
+`
+
+export async function getPostsForCategory(slug) {
+  const data = await client.request<GetPostsForCategory>(
+    GET_POSTS_FOR_CATEGORY,
+    {
+      slug
+    }
+  )
+
+  return data
+}
+
+const GET_ALL_POSTS_WITH_CATEGORY_SLUG = gql`
+  query GetAllPostsWithCategorySlug {
+    posts(first: 10000) {
+      nodes {
+        categories {
+          nodes {
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+`
+
+export async function getAllPostsWithCategorySlug() {
+  const data = await client.request<GetAllPostsWithCategorySlug>(
+    GET_ALL_POSTS_WITH_CATEGORY_SLUG
+  )
+  return data?.posts?.nodes.map(({ categories }) =>
+    categories.nodes.map(({ slug }) => slug)
+  )
 }

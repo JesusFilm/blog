@@ -97,6 +97,10 @@ export interface GetPostAndMorePosts_post_tags {
   nodes: (GetPostAndMorePosts_post_tags_nodes | null)[] | null;
 }
 
+export interface GetPostAndMorePosts_post_blocks_LazyblockCoreFreeBlock {
+  __typename: "LazyblockCoreFreeBlock" | "CoreShortcodeBlock" | "CoreArchivesBlock" | "CoreAudioBlock" | "CoreButtonBlock" | "CoreButtonsBlock" | "CoreCalendarBlock" | "CoreCategoriesBlock" | "CoreCodeBlock" | "CoreColumnsBlock" | "CoreColumnBlock" | "CoreCoverBlock" | "CoreFileBlock" | "CoreGroupBlock" | "CoreFreeformBlock" | "CoreHtmlBlock" | "CoreMediaTextBlock" | "CoreLatestCommentsBlock" | "CoreLatestPostsBlock" | "CoreMissingBlock" | "CoreMoreBlock" | "CoreNextpageBlock" | "CorePageListBlock" | "CorePreformattedBlock" | "CorePullquoteBlock" | "CoreRssBlock" | "CoreSearchBlock" | "CoreSeparatorBlock" | "CoreBlock" | "CoreSocialLinksBlock" | "CoreSocialLinkBlock" | "CoreSpacerBlock" | "CoreTableBlock" | "CoreTagCloudBlock" | "CoreTextColumnsBlock" | "CoreVerseBlock" | "CoreVideoBlock" | "CoreSiteLogoBlock" | "CoreSiteTaglineBlock" | "CoreSiteTitleBlock" | "CoreQueryBlock" | "CorePostTemplateBlock" | "CoreQueryTitleBlock" | "CoreQueryPaginationBlock" | "CoreQueryPaginationNextBlock" | "CoreQueryPaginationNumbersBlock" | "CoreQueryPaginationPreviousBlock" | "CorePostTitleBlock" | "CorePostContentBlock" | "CorePostDateBlock" | "CorePostExcerptBlock" | "CorePostFeaturedImageBlock" | "CorePostTermsBlock" | "CoreLoginoutBlock";
+}
+
 export interface GetPostAndMorePosts_post_blocks_CoreParagraphBlock_attributes_CoreParagraphBlockAttributes {
   __typename: "CoreParagraphBlockAttributes";
   content: string;
@@ -371,7 +375,7 @@ export interface GetPostAndMorePosts_post_blocks_LazyblockArclightBlock {
   attributes: GetPostAndMorePosts_post_blocks_LazyblockArclightBlock_attributes | null;
 }
 
-export type GetPostAndMorePosts_post_blocks = GetPostAndMorePosts_post_blocks_CoreParagraphBlock | GetPostAndMorePosts_post_blocks_CoreImageBlock | GetPostAndMorePosts_post_blocks_CoreListBlock | GetPostAndMorePosts_post_blocks_CoreHeadingBlock | GetPostAndMorePosts_post_blocks_CoreGalleryBlock | GetPostAndMorePosts_post_blocks_CoreQuoteBlock | GetPostAndMorePosts_post_blocks_CoreEmbedBlock | GetPostAndMorePosts_post_blocks_LazyblockArclightBlock;
+export type GetPostAndMorePosts_post_blocks = GetPostAndMorePosts_post_blocks_LazyblockCoreFreeBlock | GetPostAndMorePosts_post_blocks_CoreParagraphBlock | GetPostAndMorePosts_post_blocks_CoreImageBlock | GetPostAndMorePosts_post_blocks_CoreListBlock | GetPostAndMorePosts_post_blocks_CoreHeadingBlock | GetPostAndMorePosts_post_blocks_CoreGalleryBlock | GetPostAndMorePosts_post_blocks_CoreQuoteBlock | GetPostAndMorePosts_post_blocks_CoreEmbedBlock | GetPostAndMorePosts_post_blocks_LazyblockArclightBlock;
 
 export interface GetPostAndMorePosts_post {
   __typename: "Post";

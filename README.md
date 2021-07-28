@@ -2,6 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Install Apollo
+`npm install -g apollo`
+
+If you make new gql queries, run 
+
+`npm run generate`
+
 First, run the development server:
 
 ```bash
