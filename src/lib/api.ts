@@ -429,7 +429,7 @@ export async function getPostsForCategory(slug) {
   const data = await client.request<GetPostsForCategory>(
     GET_POSTS_FOR_CATEGORY,
     {
-      slug: slug
+      slug
     }
   )
 
