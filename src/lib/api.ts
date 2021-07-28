@@ -2,9 +2,11 @@ import { GraphQLClient, gql } from 'graphql-request'
 import { GetAllPostsForHome } from './__generated__/GetAllPostsForHome'
 import { GetAllPostsWithSlug } from './__generated__/GetAllPostsWithSlug'
 import { GetAllPostsWithCategorySlug } from './__generated__/GetAllPostsWithCategorySlug'
+import { GetAllPostsWithAuthorSlug } from './__generated__/GetAllPostsWithAuthorSlug'
 import { GetMenus } from './__generated__/GetMenus'
 import { GetPostAndMorePosts } from './__generated__/GetPostAndMorePosts'
 import { GetPostsForCategory } from './__generated__/GetPostsForCategory'
+import { GetPostsForAuthor } from './__generated__/GetPostsForAuthor'
 import { GetPreviewPost } from './__generated__/GetPreviewPost'
 
 const client = new GraphQLClient(process.env.WORDPRESS_API_URL, {
@@ -458,4 +460,65 @@ export async function getAllPostsWithCategorySlug() {
   return data?.posts?.nodes.map(({ categories }) =>
     categories.nodes.map(({ slug }) => slug)
   )
+}
+
+const GET_POSTS_FOR_AUTHOR = gql`
+  query GetPostsForAuthor($slug: String!) {
+    posts(
+      first: 10
+      where: { authorName: $slug, orderby: { field: DATE, order: DESC } }
+    ) {
+      nodes {
+        title
+        slug
+        excerpt
+        categories {
+          nodes {
+            name
+            slug
+          }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+        author {
+          node {
+            name
+          }
+        }
+        date
+      }
+    }
+  }
+`
+
+export async function getPostsForAuthor(slug) {
+  const data = await client.request<GetPostsForAuthor>(GET_POSTS_FOR_AUTHOR, {
+    slug
+  })
+
+  return data
+}
+
+const GET_ALL_POSTS_WITH_AUTHOR_SLUG = gql`
+  query GetAllPostsWithAuthorSlug {
+    posts(first: 10000) {
+      nodes {
+        author {
+          node {
+            slug
+          }
+        }
+      }
+    }
+  }
+`
+
+export async function getAllPostsWithAuthorSlug() {
+  const data = await client.request<GetAllPostsWithAuthorSlug>(
+    GET_ALL_POSTS_WITH_AUTHOR_SLUG
+  )
+  return data?.posts?.nodes.map(({ author }) => author.node.slug)
 }
